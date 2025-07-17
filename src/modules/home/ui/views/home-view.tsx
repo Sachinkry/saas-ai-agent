@@ -17,7 +17,7 @@ export const HomeView = () => {
       <div>
         <p>Logged in as {session?.user?.name || "guest"}</p>
       </div>
-      <Button className="w-full hover:cursor-pointer" variant={"destructive"} onClick={() => authClient.signOut({
+      <Button className="w-full hover:cursor-pointer" variant={"default"} onClick={() => authClient.signOut({
         fetchOptions: {
           onSuccess: () => {
             router.push("/sign-in")
