@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { FaGithub, FaGoogle } from "react-icons/fa"
 import {
     Form,
     FormControl,
@@ -17,9 +18,9 @@ import {
 } from "@/components/ui/form"
 import { OctagonAlertIcon } from "lucide-react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { authClient } from "@/lib/auth-client"
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
     name: z.string().min(1, { message: "Name is required" }),
@@ -33,10 +34,9 @@ const formSchema = z.object({
 })
 
 export const SignUpView = () => {
-    const router = useRouter()
     const [error, setError] = useState<string | null>(null)
     const [isPending, setIsPending] = useState(false)
-
+    const router = useRouter()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -47,7 +47,7 @@ export const SignUpView = () => {
         },
     })
 
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    const onSubmit = (data: z.infer<typeof formSchema>) => {
         console.log(data)
         setError(null)
         setIsPending(true)
@@ -62,6 +62,27 @@ export const SignUpView = () => {
                 onSuccess: () => {
                     setIsPending(false)
                     router.push("/")
+                },
+                onError: (error) => {
+                    setIsPending(false)
+                    setError(error.error.message)
+                }
+            }
+        )
+    }
+
+    const onSocial = async (provider: "google" | "github") => {
+        setError(null)
+        setIsPending(true)
+
+        authClient.signIn.social(
+            {
+                provider: provider,
+                callbackURL: '/'
+            },
+            {
+                onSuccess: () => {
+                    setIsPending(false)
                 },
                 onError: (error) => {
                     setIsPending(false)
@@ -153,7 +174,7 @@ export const SignUpView = () => {
                                         <AlertTitle>{error}</AlertTitle>
                                     </Alert>
                                 )}
-                                <Button disabled={isPending} type="submit" className="w-full">
+                                <Button disabled={isPending} type="submit" className="w-full hover:cursor-pointer">
                                     Sign Up
                                 </Button>
                                 <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:flex after:items-center after:border-t">
@@ -163,19 +184,23 @@ export const SignUpView = () => {
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                     <Button 
+                                        onClick={() => onSocial("google")}
                                         disabled={isPending}
                                         variant="outline"
                                         type="button"
-                                    className="w-full"
+                                    className="w-full hover:cursor-pointer"
                                     >
+                                        <FaGoogle className="mr-2" />
                                         Google
                                         </Button>                            
                                     <Button 
+                                        onClick={() => onSocial("github")}
                                         disabled={isPending}
                                         variant="outline"
                                         type="button"
-                                    className="w-full"
+                                    className="w-full hover:cursor-pointer"
                                     >
+                                        <FaGithub className="mr-2" />
                                         Github
                                         </Button>                            
                                 </div>
