@@ -62,7 +62,7 @@ export const AgendIdViewHeader = ({
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={onRemove}>
                         <TrashIcon className="size-4 text-black" />
-                        Remove
+                        Delete
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
