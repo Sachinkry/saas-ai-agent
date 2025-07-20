@@ -22,7 +22,7 @@ export const MeetingsListHeader = () => {
                     </Button>
                 </div>
                 <div className="flex items-center gap-x-2 p-1">
-                    TODO
+                    TODO: Filters
                 </div>
             </div>
         </>

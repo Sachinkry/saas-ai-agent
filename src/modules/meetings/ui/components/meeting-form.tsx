@@ -100,10 +100,7 @@ export const MeetingForm = ({
     const isPending = createMeeting.isPending || updateMeeting.isPending;
 
     const onSubmit = ( values: z.infer<typeof meetingsInsertSchema>) => {
-        if (!values.agentId) {
-            toast.error("Please select an agent.");
-            return;
-        }
+        
         if (isEdit) {
             updateMeeting.mutate({ ...values, id: initialValues.id })
         } else {
