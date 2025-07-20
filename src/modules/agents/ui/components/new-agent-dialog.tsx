@@ -13,7 +13,7 @@ export const NewAgentDialog = ({
     return (
         <ResponsiveDialog
             title="New Agent"
-            description="Creae New Agent"
+            description="Create New Agent"
             open={open}
             onOpenChange={onOpenChange}
         >
