@@ -18,11 +18,11 @@ const Page = async ({ searchParams }: Props) => {
     const filters =  await loadSearchParams(searchParams);
     const session = await auth.api.getSession({
         headers: await headers(),
-      })
-    
-      if (!session) {
+    })
+
+    if (!session) {
         redirect("/sign-in")
-      }
+    }
       
     const queryClient = getQueryClient();
     void queryClient.prefetchQuery(
